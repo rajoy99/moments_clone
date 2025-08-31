@@ -3,12 +3,14 @@ from flask_login import current_user, login_required
 from sqlalchemy import func, select
 from sqlalchemy.orm import with_parent
 
+from moments.vision import generate_image_metadata
 from moments.core.extensions import db
 from moments.decorators import confirm_required, permission_required
 from moments.forms.main import CommentForm, DescriptionForm, TagForm
 from moments.models import Collection, Comment, Follow, Notification, Photo, Tag, User
 from moments.notifications import push_collect_notification, push_comment_notification
 from moments.utils import flash_errors, redirect_back, rename_image, resize_image, validate_image
+
 
 main_bp = Blueprint('main', __name__)
 
@@ -138,7 +140,56 @@ def upload():
         )
         db.session.add(photo)
         db.session.commit()
+        populate_metadata_from_vision_api(photo.id)
     return render_template('main/upload.html')
+
+
+
+def populate_metadata_from_vision_api(photo_id):
+
+    photo = db.session.get(Photo, photo_id) or abort(404)
+
+    #  Construct the full path to the original image file
+    upload_path = current_app.config['MOMENTS_UPLOAD_PATH']
+    source_path = upload_path / photo.filename
+
+    
+    if not source_path.exists():
+        print(f"Error: File not found at {source_path}")
+        return
+
+    try:
+        # Get the caption and the list of tag strings from the API
+        caption, tag_names = generate_image_metadata(str(source_path))
+
+        # Update the photo's description
+        photo.description = caption
+        
+
+        # Process the tags
+        for name in tag_names:
+
+            # Check if a tag with this name already exists
+            tag_object = Tag.query.filter_by(name=name).first()
+            
+            # If the tag does not exist, create a new one
+            if not tag_object:
+                tag_object = Tag(name=name)
+                db.session.add(tag_object)
+                
+            # Append the tag object to the photo's list of tags
+            photo.tags.append(tag_object)
+
+        # Commit the session to save the new tags and the relationships
+        db.session.commit()
+
+
+        print("Caption:", photo.caption)
+        print("Tags:", photo.tags)
+        print(f"Metadata for Photo ID {photo_id} generated successfully.")
+    except Exception as e:
+        print(f"Error generating metadata for Photo ID {photo_id}: {e}")
+
 
 
 @main_bp.route('/photo/<int:photo_id>')
