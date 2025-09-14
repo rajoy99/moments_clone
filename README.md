@@ -1,10 +1,31 @@
-# Moments
+# Moments_clone
 
-A photo sharing social networking app built with Python and Flask. The example application for the book *[Python Web Development with Flask (2nd edition)](https://helloflask.com/en/book/4)* (《[Flask Web 开发实战（第 2 版）](https://helloflask.com/book/4)》).
-
-Demo: http://moments.helloflask.com
 
 ![Screenshot](demo_mine.png)
+
+
+To automatically generate descriptions and tags, you’ll need your **Microsoft Azure API Key** and **Endpoint**. Follow these steps to set them up:
+
+---
+
+### 1. Connect to the Azure Vision API
+
+1. Sign up for a Microsoft Azure student account: [Azure for Students](https://azure.microsoft.com/en-us/free/students/)  
+   - No credit card required (for educational institutions only; others will need a paid subscription).  
+2. Create a **Computer Vision** service instance and copy its **API endpoint**.  
+3. Generate a **subscription key** to authorize your script to call the Computer Vision API.  
+
+---
+
+### 2. Store Your Credentials in a `.env` File
+
+Add the following lines to your `.env` file:
+
+```env
+Endpoint="Your API Endpoint"
+Key="Your API Key"
+
+
 
 ## Installation
 
