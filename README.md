@@ -4,14 +4,14 @@ A photo sharing social networking app built with Python and Flask. The example a
 
 Demo: http://moments.helloflask.com
 
-![Screenshot](demo.png)
+![Screenshot](demo_mine.png)
 
 ## Installation
 
 Clone the repo:
 
 ```
-$ git clone https://github.com/greyli/moments
+$ git clone https://github.com/rajoy99/moments_clone
 $ cd moments
 ```
 
