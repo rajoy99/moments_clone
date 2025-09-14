@@ -40,6 +40,8 @@ Add the following lines to your `.env` file:
 Endpoint="Your API Endpoint"
 Key="Your API Key"
 
+```
+---
 
 To initialize the app, run the `flask init-app` command:
 
