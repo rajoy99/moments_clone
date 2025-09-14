@@ -4,10 +4,25 @@
 ![Screenshot](demo_mine.png)
 
 
-To automatically generate descriptions and tags, you’ll need your **Microsoft Azure API Key** and **Endpoint**. Follow these steps to set them up:
+### Installation
+
+Clone the repo:
+
+```
+$ git clone https://github.com/rajoy99/moments_clone
+$ cd moments
+```
+Install dependencies with [PDM](https://pdm.fming.dev):
+
+```
+$ pdm install
+```
+
+> [!TIP]
+> If you don't have PDM installed, you can create a virtual environment with `venv` and install dependencies with `pip install -r requirements.txt`.
 
 ---
-
+To automatically generate descriptions and tags, you’ll need your **Microsoft Azure API Key** and **Endpoint**. Follow these steps to set them up:
 ### 1. Connect to the Azure Vision API
 
 1. Sign up for a Microsoft Azure student account: [Azure for Students](https://azure.microsoft.com/en-us/free/students/)  
@@ -25,25 +40,6 @@ Add the following lines to your `.env` file:
 Endpoint="Your API Endpoint"
 Key="Your API Key"
 
-
-
-## Installation
-
-Clone the repo:
-
-```
-$ git clone https://github.com/rajoy99/moments_clone
-$ cd moments
-```
-
-Install dependencies with [PDM](https://pdm.fming.dev):
-
-```
-$ pdm install
-```
-
-> [!TIP]
-> If you don't have PDM installed, you can create a virtual environment with `venv` and install dependencies with `pip install -r requirements.txt`.
 
 To initialize the app, run the `flask init-app` command:
 
