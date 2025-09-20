@@ -18,8 +18,7 @@ Install dependencies with [PDM](https://pdm.fming.dev):
 $ pdm install
 ```
 
-> [!TIP]
-> If you don't have PDM installed, you can create a virtual environment with `venv` and install dependencies with `pip install -r requirements.txt`.
+
 
 ---
 To automatically generate descriptions and tags, you’ll need your **Microsoft Azure API Key** and **Endpoint**. Follow these steps to set them up:
