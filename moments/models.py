@@ -331,6 +331,8 @@ class Tag(db.Model):
     def __repr__(self):
         return f'Tag {self.id}: {self.name}'
 
+    
+
 
 class Comment(db.Model):
     __tablename__ = 'comment'

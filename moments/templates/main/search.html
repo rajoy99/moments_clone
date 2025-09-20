@@ -21,7 +21,7 @@
   </div>
   <div class="col-md-9">
     {% if results %}
-    <h5>{{ pagination.total }} results</h5>
+
     {% for item in results %}
     {% if category == 'photo' %}
     {{ photo_card(item) }}
@@ -29,10 +29,17 @@
     {{ user_card(item) }}
     {% else %}
 
-    {% for tag, count in results %}
-    <a class="badge text-bg-light rounded-pill" href="{{ url_for('.show_tag', tag_id=tag.id) }}">
-      Show ({{ count }}) photos tagged with #{{ tag.name }}
-    </a>
+    {% for item in results %}
+    {% set tag, count, photos = item %}
+    <div class="mb-3">
+      <h5>#{{ tag.name }} ({{ count }} photos)</h5>
+      <div class="d-flex flex-wrap">
+        {% for photo in photos %}
+        {{ photo_card(photo) }}
+        {% endfor %}
+      </div>
+
+    </div>
     {% endfor %}
 
     {% endif %}

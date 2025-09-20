@@ -65,9 +65,21 @@ def search():
     elif category == 'tag':
         pagination = Tag.query.whooshee_search(q).paginate(page=page, per_page=per_page)
         results = pagination.items
-        # add counts manually
-        tags_with_counts = [(tag, Photo.query.filter(Photo.tags.contains(tag)).count()) for tag in results]
-        return render_template('main/search.html', q=q, results=tags_with_counts, pagination=pagination, category=category)
+        
+        # For each tag, fetch the first 4 photos
+        tags_with_photos = []
+        for tag in results:
+            photos = Photo.query.filter(Photo.tags.contains(tag)).limit(4).all()
+            count = Photo.query.filter(Photo.tags.contains(tag)).count()
+            tags_with_photos.append((tag, count, photos))
+    
+        return render_template(
+            'main/search.html',
+            q=q,
+            results=tags_with_photos,
+            pagination=pagination,
+            category=category
+        )
     else:
         pagination = Photo.query.whooshee_search(q).paginate(page=page, per_page=per_page)
     results = pagination.items
