@@ -21,18 +21,22 @@
   </div>
   <div class="col-md-9">
     {% if results %}
-      <h5>{{ results|length }} results</h5>
-      {% for item in results %}
-      {% if category == 'photo' %}
-        {{ photo_card(item) }}
-      {% elif category == 'user' %}
-        {{ user_card(item) }}
-      {% else %}
-      <a class="badge text-bg-light rounded-pill" href="{{ url_for('.show_tag', tag_id=item.id) }}">
-        {{ item.name }} {{ item.photos|length }}
-      </a>
-      {% endif %}
-      {% endfor %}
+    <h5>{{ pagination.total }} results</h5>
+    {% for item in results %}
+    {% if category == 'photo' %}
+    {{ photo_card(item) }}
+    {% elif category == 'user' %}
+    {{ user_card(item) }}
+    {% else %}
+
+    {% for tag, count in results %}
+    <a class="badge text-bg-light rounded-pill" href="{{ url_for('.show_tag', tag_id=tag.id) }}">
+      Show ({{ count }}) photos tagged with #{{ tag.name }}
+    </a>
+    {% endfor %}
+
+    {% endif %}
+    {% endfor %}
     {% else %}
     <h5 class="tip">No results.</h5>
     {% endif %}
