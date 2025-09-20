@@ -8,58 +8,39 @@
 <div class="page-header">
   <h1>Search: {{ q }}</h1>
 </div>
-
 <div class="row">
-  <!-- Sidebar navigation -->
   <div class="col-md-3">
     <div class="nav nav-pills flex-column" role="tablist" aria-orientation="vertical">
       <a class="nav-item nav-link {% if category == 'photo' %}active{% endif %}"
-         href="{{ url_for('.search', q=q, category='photo') }}">Photo</a>
+        href="{{ url_for('.search', q=q, category='photo') }}">Photo</a>
       <a class="nav-item nav-link {% if category == 'user' %}active{% endif %}"
-         href="{{ url_for('.search', q=q, category='user') }}">User</a>
+        href="{{ url_for('.search', q=q, category='user') }}">User</a>
       <a class="nav-item nav-link {% if category == 'tag' %}active{% endif %}"
-         href="{{ url_for('.search', q=q, category='tag') }}">Tag</a>
+        href="{{ url_for('.search', q=q, category='tag') }}">Tag</a>
     </div>
   </div>
-
-  <!-- Main content -->
   <div class="col-md-9">
     {% if results %}
       <h5>{{ results|length }} results</h5>
-
+      {% for item in results %}
       {% if category == 'photo' %}
-        {% for photo in results %}
-          {{ photo_card(photo) }}
-        {% endfor %}
-
+        {{ photo_card(item) }}
       {% elif category == 'user' %}
-        {% for user in results %}
-          {{ user_card(user) }}
-        {% endfor %}
-
-      {% elif category == 'tag' %}
-        {% for item in results %}
-          {% set tag, count, photos = item %}
-          <div class="mb-4">
-            <h5>#{{ tag.name }} ({{ count }} photos)</h5>
-
-            {% if count > 0 %}
-              <a href="{{ url_for('.show_tag', tag_id=tag.id) }}">Show all photos for #{{ tag.name }}</a>
-            {% endif %}
-          </div>
-        {% endfor %}
+        {{ user_card(item) }}
+      {% else %}
+      <a class="badge text-bg-light rounded-pill" href="{{ url_for('.show_tag', tag_id=item.id) }}">
+        {{ item.name }} {{ item.photos_count }}
+      </a>
       {% endif %}
-
+      {% endfor %}
     {% else %}
-      <h5 class="tip">No results.</h5>
+    <h5 class="tip">No results.</h5>
     {% endif %}
   </div>
 </div>
-
 {% if results %}
-  <div class="page-footer mt-3">
-    {{ render_pagination(pagination, align='right') }}
-  </div>
+<div class="page-footer">
+  {{ render_pagination(pagination, align='right') }}
+</div>
 {% endif %}
-
 {% endblock %}
