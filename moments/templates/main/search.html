@@ -43,7 +43,9 @@
           <div class="mb-4">
             <h5>#{{ tag.name }} ({{ count }} photos)</h5>
 
-            <a href="{{ url_for('.show_tag', tag_id=tag.id) }}">Show all photos for #{{ tag.name }}</a>
+            {% if count > 0 %}
+              <a href="{{ url_for('.show_tag', tag_id=tag.id) }}">Show all photos for #{{ tag.name }}</a>
+            {% endif %}
           </div>
         {% endfor %}
       {% endif %}
